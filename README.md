@@ -24,4 +24,4 @@ You can download the latest standalone installer from the [Releases](../../relea
 ### Build Instructions
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/yourusername/Tracket-PC.git](https://github.com/yourusername/Tracket-PC.git)
+   git clone [https://github.com/amanatbiswas000-code/Tracket-PC-PRO.git]
