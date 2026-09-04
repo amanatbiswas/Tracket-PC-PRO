@@ -1,0 +1,93 @@
+<Window
+    x:Class="App.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="TRACKET PC PRO // PHONK STABILIZER EDITION">
+
+    <Grid Background="#07090E">
+        <Grid.Resources>
+            <SolidColorBrush x:Key="PhonkDarkBg" Color="#07090E"/>
+            <SolidColorBrush x:Key="PhonkPanelBg" Color="#0D111A"/>
+            <SolidColorBrush x:Key="PhonkBorderBrush" Color="#1E293B"/>
+            <SolidColorBrush x:Key="PhonkNeonBlue" Color="#00E5FF"/>
+            <SolidColorBrush x:Key="PhonkGlowBlue" Color="#0099FF"/>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Professional Phonk Top Command Bar -->
+        <CommandBar Grid.Row="0" DefaultLabelPosition="Right" Background="{StaticResource PhonkPanelBg}" Padding="15,4">
+            <CommandBar.Foreground>
+                <SolidColorBrush Color="#E2E8F0"/>
+            </CommandBar.Foreground>
+            <AppBarButton x:Name="BtnLoad" Icon="OpenFile" Label="Load Clip" Click="BtnLoad_Click"/>
+            <AppBarSeparator/>
+            <AppBarToggleButton x:Name="BtnCropToggle" Icon="Crop" Label="Center Anchor Lock"/>
+            <AppBarToggleButton x:Name="BtnStabilizeToggle" Icon="Map" Label="Env Stabilize (Dot Cloud)"/>
+            <AppBarSeparator/>
+            <AppBarButton x:Name="BtnOpenUpscale" Icon="Video" Label="AI Upscale (Topaz)" Click="BtnOpenUpscale_Click"/>
+            <AppBarButton x:Name="BtnExport" Icon="Save" Label="Render &amp; Export" Click="BtnExport_Click"/>
+        </CommandBar>
+
+        <!-- COMPACT ZOOMABLE Viewport with Correct Coordinate Scaling -->
+        <ScrollViewer Grid.Row="1" Margin="24" ZoomMode="Enabled" MinZoomFactor="0.5" MaxZoomFactor="8" 
+                      HorizontalScrollMode="Enabled" VerticalScrollMode="Enabled" Background="#04060A">
+            <Border Background="#04060A" BorderBrush="#1E293B" BorderThickness="1" CornerRadius="6" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    MaxWidth="850" MaxHeight="480">
+                <Image x:Name="VideoViewport" Stretch="Uniform" 
+                       PointerPressed="VideoViewport_PointerPressed" 
+                       PointerMoved="VideoViewport_PointerMoved" 
+                       PointerReleased="VideoViewport_PointerReleased"/>
+            </Border>
+        </ScrollViewer>
+
+        <!-- Sleek Bottom Phonk Control Deck -->
+        <Grid Grid.Row="2" Background="{StaticResource PhonkPanelBg}" BorderBrush="{StaticResource PhonkBorderBrush}" BorderThickness="0,1,0,0" Padding="20,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Neon Phonk Play Button -->
+            <Button x:Name="BtnPlay" Width="42" Height="42" CornerRadius="21" Background="{StaticResource PhonkNeonBlue}" Foreground="#07090E" Click="BtnPlay_Click" VerticalAlignment="Center">
+                <SymbolIcon x:Name="PlayIcon" Symbol="Play"/>
+            </Button>
+
+            <!-- Custom Styled Timeline Scrubber -->
+            <Slider x:Name="TimelineSlider" Grid.Column="1" Margin="20,0,20,0" VerticalAlignment="Center" 
+                    Minimum="0" Maximum="100" StepFrequency="1" ValueChanged="TimelineSlider_ValueChanged"/>
+
+            <!-- Live Hardware & Coordinate Status Deck -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Spacing="16">
+                <TextBlock x:Name="MetricsText" Text="FPS: 0.0 | GPU: ACTIVE" Foreground="{StaticResource PhonkNeonBlue}" VerticalAlignment="Center" FontSize="11" FontWeight="SemiBold"/>
+                <TextBlock x:Name="TrackerDataText" Text="READY: SELECT SUBJECT" Foreground="#64748B" VerticalAlignment="Center" Width="200" TextAlignment="Right" FontSize="11" CharacterSpacing="50"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- MODAL EXPORT OVERLAY -->
+        <Grid x:Name="ExportModalOverlay" Grid.RowSpan="3" Background="#D804060A" Visibility="Collapsed" IsHitTestVisible="False">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Background="{StaticResource PhonkPanelBg}" Padding="35" CornerRadius="8" Width="460" Spacing="18" BorderBrush="{StaticResource PhonkNeonBlue}" BorderThickness="1">
+                <TextBlock Text="RENDERING PHONK MASTER CLIP..." FontSize="15" FontWeight="Bold" Foreground="{StaticResource PhonkNeonBlue}" CharacterSpacing="100"/>
+                <ProgressBar x:Name="ExportProgressBar" Minimum="0" Maximum="100" Height="6" Foreground="{StaticResource PhonkNeonBlue}" Background="#1E293B"/>
+                <TextBlock x:Name="ExportStatusText" Text="Initializing hardware acceleration..." Foreground="#94A3B8" FontSize="12"/>
+                <TextBlock x:Name="ExportMetricsOverlayText" Text="Processing Speed: 0.0 FPS | Pipeline: GPU Accelerated" Foreground="{StaticResource PhonkNeonBlue}" FontSize="11"/>
+                <Button x:Name="BtnCancelExport" Content="ABORT RENDER" Background="#EF4444" Foreground="White" HorizontalAlignment="Stretch" Height="34" FontWeight="SemiBold" Click="BtnCancelExport_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- LAUNCH INTRO GREEN-SCREEN OVERLAY -->
+        <Grid x:Name="IntroOverlayGrid" Grid.RowSpan="3" Background="#07090E" IsHitTestVisible="True">
+            <Image x:Name="IntroViewport" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</Window>
